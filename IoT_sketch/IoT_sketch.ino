@@ -21,7 +21,7 @@ char pass[] = "aaaaaaaa";
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
-DFRobot_Heartrate heartrate(DIGITAL_MODE);
+DFRobot_Heartrate heartrate(ANALOG_MODE);
 DFRobot_LIS2DH12 acce(&Wire,0x18);
 DFRobot_RGBLCD1602 lcd(/*RGBAddr*/0x2D ,/*lcdCols*/16,/*lcdRows*/2);  //16 characters and 2 lines of show
 
@@ -38,11 +38,11 @@ int count = 0;
 
 void setup() {
   //Initialize serial and wait for port to open:
-  /*
+  
   Serial.begin(9600);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
-  }*/
+  }
   pinMode(btnPin,INPUT);
   pinMode(Vibration,OUTPUT);
   pinMode(heartratePin,INPUT);
@@ -134,7 +134,8 @@ void loop() {
     json += "]";
 
     uint8_t rateValue;
-    heartrate.getValue(heartratePin); ///< A1 foot sampled values
+    uint8_t heartratePinValue;
+    heartratePinValue = heartrate.getValue(heartratePin); ///< A1 foot sampled values
     rateValue = heartrate.getRate(); ///< Get heart rate value
     if(rateValue)  {
       Serial.println(rateValue);
@@ -150,13 +151,19 @@ void loop() {
     Serial.println(topic2);
     Serial.println(rateValue);
     */
+
+    Serial.print("rateValue = ");
+    Serial.println(rateValue);
+    Serial.print("heartratePinValue = ");
+    Serial.println(heartratePinValue);
+    
     // send message, the Print interface can be used to set the message contents
     mqttClient.beginMessage(topic);
     mqttClient.print(json);
     mqttClient.endMessage();
 
     mqttClient.beginMessage(topic2);
-    mqttClient.print(String(rateValue));
+    mqttClient.print(String(heartratePinValue));
     mqttClient.endMessage();
   
     //Serial.println();
