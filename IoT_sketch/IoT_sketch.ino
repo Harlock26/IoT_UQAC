@@ -38,8 +38,8 @@ int count = 0;
 
 void setup() {
   //Initialize serial and wait for port to open:
-  /*
   Serial.begin(9600);
+  /*
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }*/
@@ -47,7 +47,7 @@ void setup() {
   pinMode(Vibration,OUTPUT);
   pinMode(heartratePin,INPUT);
   lcd.init();
-  lcd.setRGB(255, 255, 255);
+  //lcd.setRGB(255, 255, 255);
   while(!acce.begin()){
      //Serial.println("Initialization failed, please check the connection and I2C address settings");
      delay(1000);
@@ -161,8 +161,8 @@ void loop() {
   
     //Serial.println();
   }
-  lcd.setCursor(0,1);
-  lcd.print("        ");
+  //lcd.setCursor(0,1);
+  //lcd.print("        ");
 }
 
 void digitalClockDisplay(int timeZone){
@@ -172,6 +172,14 @@ void digitalClockDisplay(int timeZone){
   String h = String(hour(t));
   String m = String(minute(t));
   String s = String(second(t));
+  Serial.println(m);
+  Serial.println(s);
+  if (m=="0" && s=="0"){
+    analogWrite(Vibration, 220);
+  }
+  else {
+    analogWrite(Vibration, 0);
+  }
   lcd.print(h);
   m = printDigits(m);
   lcd.print(m);
@@ -180,10 +188,8 @@ void digitalClockDisplay(int timeZone){
 }
 
 String printDigits(String input){
-  // utility function for digital clock display: prints preceding colon and leading 0
-  input = ":" + input;
   if (input.length()==1){
-    return ("0"+input);
+    input = "0"+input;
   }
-  else {return(input);}
+  return (":"+input);
 }
