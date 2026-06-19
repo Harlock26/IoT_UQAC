@@ -1,0 +1,156 @@
+#define btnPin 0
+#define Vibration 1
+#define heartratePin A2
+
+#include <ArduinoMqttClient.h>
+#include <WiFiNINA.h>
+#include "arduino_secrets.h"
+#include "DFRobot_Heartrate.h"
+#include "DFRobot_RGBLCD1602.h"
+#include <DFRobot_LIS2DH12.h>
+
+///////please enter your sensitive data in the Secret tab/arduino_secrets.h
+char ssid[] = SECRET_SSID;        // your network SSID (name)
+char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
+
+WiFiClient wifiClient;
+MqttClient mqttClient(wifiClient);
+DFRobot_Heartrate heartrate(DIGITAL_MODE);
+DFRobot_LIS2DH12 acce(&Wire,0x18);
+DFRobot_RGBLCD1602 lcd(/*RGBAddr*/0x2D ,/*lcdCols*/16,/*lcdRows*/2);  //16 characters and 2 lines of show
+
+const char broker[] = "test.mosquitto.org";
+int        port     = 1883;
+const char topic[]  = "acceleration";
+const char topic2[]  = "heartrate";
+
+//set interval for sending messages (milliseconds)
+const long interval = 1000;
+unsigned long previousMillis = 0;
+
+int count = 0;
+
+void setup() {
+  //Initialize serial and wait for port to open:
+  Serial.begin(9600);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+  pinMode(btnPin,INPUT);
+  pinMode(Vibration,OUTPUT);
+  pinMode(heartratePin,INPUT);
+  lcd.init();
+  lcd.setRGB(255, 255, 255);
+  while(!acce.begin()){
+     Serial.println("Initialization failed, please check the connection and I2C address settings");
+     delay(1000);
+  }
+  //Get chip id
+  Serial.print("chip id : ");
+  Serial.println(acce.getID(),HEX);
+  
+  /**
+    set range:Range(g)
+              eLIS2DH12_2g,/< ±2g>/
+              eLIS2DH12_4g,/< ±4g>/
+              eLIS2DH12_8g,/< ±8g>/
+              eLIS2DH12_16g,/< ±16g>/
+  */
+  acce.setRange(/*Range = */DFRobot_LIS2DH12::eLIS2DH12_16g);
+
+  /**
+    Set data measurement rate：
+      ePowerDown_0Hz 
+      eLowPower_1Hz 
+      eLowPower_10Hz 
+      eLowPower_25Hz 
+      eLowPower_50Hz 
+      eLowPower_100Hz
+      eLowPower_200Hz
+      eLowPower_400Hz
+  */
+  acce.setAcquireRate(/*Rate = */DFRobot_LIS2DH12::eLowPower_10Hz);
+  Serial.print("Acceleration:\n");
+  delay(1000);
+  // attempt to connect to Wifi network:
+  Serial.print("Attempting to connect to WPA SSID: ");
+  Serial.println(ssid);
+  while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
+    // failed, retry
+    Serial.print(".");
+    delay(5000);
+  }
+
+  Serial.println("You're connected to the network");
+  Serial.println();
+
+  Serial.print("Attempting to connect to the MQTT broker: ");
+  Serial.println(broker);
+
+  if (!mqttClient.connect(broker, port)) {
+    Serial.print("MQTT connection failed! Error code = ");
+    Serial.println(mqttClient.connectError());
+
+    while (1);
+  }
+
+  Serial.println("You're connected to the MQTT broker!");
+  Serial.println();
+}
+
+void loop() {
+  // call poll() regularly to allow the library to send MQTT keep alive which
+  // avoids being disconnected by the broker
+  mqttClient.poll();
+
+  unsigned long currentMillis = millis();
+  
+  if (currentMillis - previousMillis >= interval) {
+    // save the last time a message was sent
+    previousMillis = currentMillis;
+    lcd.setCursor(1, 0);
+    lcd.print(" ");
+    lcd.setCursor(2, 0);
+    lcd.print(" ");
+    long ax,ay,az;
+    ax = acce.readAccX();//Get the acceleration in the x direction
+    ay = acce.readAccY();//Get the acceleration in the y direction
+    az = acce.readAccZ();//Get the acceleration in the z direction
+    long acc[3] = {ax,ay,az};
+
+    String json = "[";
+    for (int i = 0; i < 3; i++) {
+      json += String(acc[i]);
+    if (i < 2) json += ",";
+    }
+    json += "]";
+
+    uint8_t rateValue;
+    heartrate.getValue(heartratePin); ///< A1 foot sampled values
+    rateValue = heartrate.getRate(); ///< Get heart rate value
+    if(rateValue)  {
+      Serial.println(rateValue);
+    }
+    lcd.setCursor(0,0);
+    lcd.print(rateValue);
+    
+    Serial.print("Sending message to topic: ");
+    Serial.println(topic);
+    Serial.println(json);
+
+    Serial.print("Sending message to topic: ");
+    Serial.println(topic2);
+    Serial.println(rateValue);
+
+    // send message, the Print interface can be used to set the message contents
+    mqttClient.beginMessage(topic);
+    mqttClient.print(json);
+    mqttClient.endMessage();
+
+    mqttClient.beginMessage(topic2);
+    mqttClient.print(String(rateValue));
+    mqttClient.endMessage();
+
+    Serial.println();
+  }
+}
