@@ -17,7 +17,7 @@ TOPICS = [
    "heartrate"
 ]
 
-CSV_FILE = "acceleration_data.csv"
+CSV_FILE = "accelerometer_data/acceleration_data.csv"
 
 # Crée le fichier CSV avec l'en-tête s'il n'existe pas encore
 if not os.path.isfile(CSV_FILE):
