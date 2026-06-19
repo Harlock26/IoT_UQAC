@@ -8,6 +8,7 @@
 #include "DFRobot_Heartrate.h"
 #include "DFRobot_RGBLCD1602.h"
 #include <DFRobot_LIS2DH12.h>
+#include <TimeLib.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 //char ssid[] = SECRET_SSID;        // your network SSID (name)
@@ -30,7 +31,7 @@ const char topic[]  = "acceleration";
 const char topic2[]  = "heartrate";
 
 //set interval for sending messages (milliseconds)
-const long interval = 1000;
+const long interval = 200;
 unsigned long previousMillis = 0;
 
 int count = 0;
@@ -62,7 +63,7 @@ void setup() {
               eLIS2DH12_8g,/< ±8g>/
               eLIS2DH12_16g,/< ±16g>/
   */
-  acce.setRange(/*Range = */DFRobot_LIS2DH12::eLIS2DH12_16g);
+  acce.setRange(/*Range = */DFRobot_LIS2DH12::eLIS2DH12_4g);
 
   /**
     Set data measurement rate：
@@ -99,12 +100,13 @@ void setup() {
 
     while (1);
   }
-
+  //setTime(WiFi.getTime());
   //Serial.println("You're connected to the MQTT broker!");
   //Serial.println();
 }
 
 void loop() {
+  digitalClockDisplay(-4);
   // call poll() regularly to allow the library to send MQTT keep alive which
   // avoids being disconnected by the broker
   mqttClient.poll();
@@ -156,7 +158,32 @@ void loop() {
     mqttClient.beginMessage(topic2);
     mqttClient.print(String(rateValue));
     mqttClient.endMessage();
-
+  
     //Serial.println();
   }
+  lcd.setCursor(0,1);
+  lcd.print("        ");
+}
+
+void digitalClockDisplay(int timeZone){
+  // digital clock display of the time
+  lcd.setCursor(0, 1);
+  time_t t = WiFi.getTime()+3600*timeZone;
+  String h = String(hour(t));
+  String m = String(minute(t));
+  String s = String(second(t));
+  lcd.print(h);
+  m = printDigits(m);
+  lcd.print(m);
+  s = printDigits(s);
+  lcd.print(s);
+}
+
+String printDigits(String input){
+  // utility function for digital clock display: prints preceding colon and leading 0
+  input = ":" + input;
+  if (input.length()==1){
+    return ("0"+input);
+  }
+  else {return(input);}
 }
