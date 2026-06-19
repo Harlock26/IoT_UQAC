@@ -4,14 +4,19 @@
 
 #include <ArduinoMqttClient.h>
 #include <WiFiNINA.h>
-#include "arduino_secrets.h"
+//#include "arduino_secrets.h"
 #include "DFRobot_Heartrate.h"
 #include "DFRobot_RGBLCD1602.h"
 #include <DFRobot_LIS2DH12.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = SECRET_SSID;        // your network SSID (name)
-char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
+//char ssid[] = SECRET_SSID;        // your network SSID (name)
+//char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
+
+
+////// Trying to connect the card by hardcoding credentials, DON'T DO THAT !!!
+char ssid[] = "Honor Magic";        // your network SSID (name)
+char pass[] = "aaaaaaaa";
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
