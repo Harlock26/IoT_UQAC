@@ -23,7 +23,7 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 DFRobot_Heartrate heartrate(DIGITAL_MODE);
 DFRobot_LIS2DH12 acce(&Wire,0x18);
-DFRobot_RGBLCD1602 lcd(/*RGBAddr*/0x2D ,/*lcdCols*/16,/*lcdRows*/2);  //16 characters and 2 lines of show
+DFRobot_RGBLCD1602 lcd(/*RGBAddr*/0x60 ,/*lcdCols*/16,/*lcdRows*/2);  //16 characters and 2 lines of show
 
 const char broker[] = "test.mosquitto.org";
 int        port     = 1883;
@@ -33,6 +33,7 @@ const char topic2[]  = "heartrate";
 //set interval for sending messages (milliseconds)
 const long interval = 200;
 unsigned long previousMillis = 0;
+bool lastButtonState = HIGH;
 
 int count = 0;
 
@@ -43,10 +44,11 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }*/
-  pinMode(btnPin,INPUT);
+  pinMode(btnPin,INPUT_PULLUP);
   pinMode(Vibration,OUTPUT);
   pinMode(heartratePin,INPUT);
   lcd.init();
+  lcd.setBacklight(false);
   //lcd.setRGB(255, 255, 255);
   while(!acce.begin()){
      //Serial.println("Initialization failed, please check the connection and I2C address settings");
@@ -107,6 +109,16 @@ void setup() {
 
 void loop() {
   digitalClockDisplay(-4);
+  bool buttonState = digitalRead(btnPin);
+
+  if (buttonState != lastButtonState) {
+    if (buttonState == HIGH) {
+      lcd.setBacklight(true);   // button pressed
+    } else {
+      lcd.setBacklight(false);  // button released
+    }
+    lastButtonState = buttonState;
+  }
   // call poll() regularly to allow the library to send MQTT keep alive which
   // avoids being disconnected by the broker
   mqttClient.poll();
@@ -172,8 +184,6 @@ void digitalClockDisplay(int timeZone){
   String h = String(hour(t));
   String m = String(minute(t));
   String s = String(second(t));
-  Serial.println(m);
-  Serial.println(s);
   if (m=="0" && s=="0"){
     analogWrite(Vibration, 220);
   }
