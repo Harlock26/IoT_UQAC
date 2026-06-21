@@ -23,7 +23,7 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 DFRobot_Heartrate heartrate(ANALOG_MODE);
 DFRobot_LIS2DH12 acce(&Wire,0x18);
-DFRobot_RGBLCD1602 lcd(/*RGBAddr*/0x2D ,/*lcdCols*/16,/*lcdRows*/2);  //16 characters and 2 lines of show
+DFRobot_RGBLCD1602 lcd(/*RGBAddr*/0x60 ,/*lcdCols*/16,/*lcdRows*/2);  //16 characters and 2 lines of show
 
 const char broker[] = "test.mosquitto.org";
 int        port     = 1883;
@@ -33,21 +33,23 @@ const char topic2[]  = "heartrate";
 //set interval for sending messages (milliseconds)
 const long interval = 200;
 unsigned long previousMillis = 0;
+bool lastButtonState = HIGH;
 
 int count = 0;
 
 void setup() {
   //Initialize serial and wait for port to open:
-  
   Serial.begin(9600);
+  /*
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
-  }
-  pinMode(btnPin,INPUT);
+  }*/
+  pinMode(btnPin,INPUT_PULLUP); //pinMode(btnPin,INPUT);
   pinMode(Vibration,OUTPUT);
   pinMode(heartratePin,INPUT);
   lcd.init();
-  lcd.setRGB(255, 255, 255);
+  lcd.setBacklight(false);
+  //lcd.setRGB(255, 255, 255);
   while(!acce.begin()){
      //Serial.println("Initialization failed, please check the connection and I2C address settings");
      delay(1000);
@@ -107,6 +109,16 @@ void setup() {
 
 void loop() {
   digitalClockDisplay(-4);
+  bool buttonState = digitalRead(btnPin);
+
+  if (buttonState != lastButtonState) {
+    if (buttonState == HIGH) {
+      lcd.setBacklight(true);   // button pressed
+    } else {
+      lcd.setBacklight(false);  // button released
+    }
+    lastButtonState = buttonState;
+  }
   // call poll() regularly to allow the library to send MQTT keep alive which
   // avoids being disconnected by the broker
   mqttClient.poll();
@@ -168,8 +180,8 @@ void loop() {
   
     //Serial.println();
   }
-  lcd.setCursor(0,1);
-  lcd.print("        ");
+  //lcd.setCursor(0,1);
+  //lcd.print("        ");
 }
 
 void digitalClockDisplay(int timeZone){
@@ -179,6 +191,12 @@ void digitalClockDisplay(int timeZone){
   String h = String(hour(t));
   String m = String(minute(t));
   String s = String(second(t));
+  if (m=="0" && s=="0"){
+    analogWrite(Vibration, 220);
+  }
+  else {
+    analogWrite(Vibration, 0);
+  }
   lcd.print(h);
   m = printDigits(m);
   lcd.print(m);
@@ -187,10 +205,8 @@ void digitalClockDisplay(int timeZone){
 }
 
 String printDigits(String input){
-  // utility function for digital clock display: prints preceding colon and leading 0
-  input = ":" + input;
   if (input.length()==1){
-    return ("0"+input);
+    input = "0"+input;
   }
-  else {return(input);}
+  return (":"+input);
 }
