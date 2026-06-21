@@ -11,13 +11,8 @@
 #include <TimeLib.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-//char ssid[] = SECRET_SSID;        // your network SSID (name)
-//char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
-
-
-////// Trying to connect the card by hardcoding credentials, DON'T DO THAT !!!
-char ssid[] = "Honor Magic";        // your network SSID (name)
-char pass[] = "aaaaaaaa";
+char ssid[] = SECRET_SSID;        // your network SSID (name)
+char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
@@ -153,7 +148,9 @@ void loop() {
       Serial.println(rateValue);
     }
     lcd.setCursor(0,0);
-    lcd.print(rateValue);
+    String bpmDisplay;
+    bpmDisplay = formatBpm(String(heartratePinValue));
+    lcd.print(bpmDisplay);
     /*
     Serial.print("Sending message to topic: ");
     Serial.println(topic);
@@ -198,15 +195,25 @@ void digitalClockDisplay(int timeZone){
     analogWrite(Vibration, 0);
   }
   lcd.print(h);
-  m = printDigits(m);
+  m = formatDigits(m);
   lcd.print(m);
-  s = printDigits(s);
+  s = formatDigits(s);
   lcd.print(s);
 }
 
-String printDigits(String input){
+String formatDigits(String input){
   if (input.length()==1){
     input = "0"+input;
   }
   return (":"+input);
+}
+
+String formatBpm(String input){
+  if (input.length()<1 or input.length()>3){
+    input = "err";
+  }
+  for i in range(3-input.length()){
+    input = " " + input;
+  }
+  return (input + " bpm");
 }
