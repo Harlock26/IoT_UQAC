@@ -4,7 +4,7 @@
 
 #include <ArduinoMqttClient.h>
 #include <WiFiNINA.h>
-//#include "arduino_secrets.h"
+#include "arduino_secrets.h"
 #include "DFRobot_Heartrate.h"
 #include "DFRobot_RGBLCD1602.h"
 #include <DFRobot_LIS2DH12.h>
@@ -24,6 +24,7 @@ const char broker[] = "test.mosquitto.org";
 int        port     = 1883;
 const char topic[]  = "acceleration";
 const char topic2[]  = "heartrate";
+const char topic3[] = "heartrate/bpm";
 
 //set interval for sending messages (milliseconds)
 const long interval = 200;
@@ -92,14 +93,21 @@ void setup() {
   //Serial.println(broker);
 
   if (!mqttClient.connect(broker, port)) {
-    //Serial.print("MQTT connection failed! Error code = ");
-    //Serial.println(mqttClient.connectError());
+    Serial.print("MQTT connection failed! Error code = ");
+    Serial.println(mqttClient.connectError());
 
     while (1);
   }
-  //setTime(WiFi.getTime());
-  //Serial.println("You're connected to the MQTT broker!");
-  //Serial.println();
+  Serial.println("You're connected to the MQTT broker!");
+  Serial.println();
+  
+  mqttClient.onMessage(onMqttMessage);
+
+  Serial.print("Subscribing to topic: ");
+  Serial.println(topic3);
+  Serial.println();
+  
+  mqttClient.subscribe(topic3);
 }
 
 void loop() {
@@ -147,10 +155,11 @@ void loop() {
     if(rateValue)  {
       Serial.println(rateValue);
     }
-    lcd.setCursor(0,0);
-    String bpmDisplay;
-    bpmDisplay = formatBpm(String(heartratePinValue));
-    lcd.print(bpmDisplay);
+    //lcd.setCursor(0,0);
+    //String bpmDisplay;
+    //bpmDisplay = formatBpm(String(mqttClient.read()));
+    //formatBpm(String(heartratePinValue));
+    //lcd.print(bpmDisplay);
     /*
     Serial.print("Sending message to topic: ");
     Serial.println(topic);
@@ -160,12 +169,12 @@ void loop() {
     Serial.println(topic2);
     Serial.println(rateValue);
     */
-
+    /*
     Serial.print("rateValue = ");
     Serial.println(rateValue);
     Serial.print("heartratePinValue = ");
     Serial.println(heartratePinValue);
-    
+    */
     // send message, the Print interface can be used to set the message contents
     mqttClient.beginMessage(topic);
     mqttClient.print(json);
@@ -212,8 +221,31 @@ String formatBpm(String input){
   if (input.length()<1 or input.length()>3){
     input = "err";
   }
-  for i in range(3-input.length()){
+  for (int i=0;i<(3-input.length());i++){
     input = " " + input;
   }
   return (input + " bpm");
+}
+
+void onMqttMessage(int messageSize){
+  // we received a message, print out the topic and contents
+  Serial.println("Received a message with topic ");
+  Serial.print(mqttClient.messageTopic());
+  Serial.print(", length ");
+  Serial.print(messageSize);
+  Serial.println(" bytes:");
+  String incoming = "";
+  // use the Stream interface to print the contents
+  while (mqttClient.available()) {
+    incoming += (char)mqttClient.read();
+  }
+  // convert the incoming string to an int so you can use it:
+  int result = incoming.toInt();
+  // print the result:
+  Serial.println(result);
+  String bpm;
+  bpm = formatBpm(String(result));
+  lcd.setCursor(0, 0);
+  lcd.print(bpm);
+  //delay(100);
 }
