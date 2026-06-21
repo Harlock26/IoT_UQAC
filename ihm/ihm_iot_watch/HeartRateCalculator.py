@@ -1,7 +1,8 @@
 # This Python file uses the following encoding: utf-8
 import numpy as np
-from scipy.signal import butter, filtfilt
 from numpy.fft import fft, fftfreq
+
+from Utils import Utils
 
 class HeartRateCalculator:
     def __init__(self):
@@ -47,7 +48,7 @@ class HeartRateCalculator:
             return False
 
         # On retire le DC sur l'ensemble de la fenêtre
-        buffer_sans_dc = self.remove_dc(self.buffer)
+        buffer_sans_dc = Utils.remove_dc(self.buffer)
 
         freqs, spectre = self.convert_to_freq(buffer_sans_dc)
         self.last_freqs = freqs
@@ -77,23 +78,6 @@ class HeartRateCalculator:
             return False
         return True
 
-    def remove_dc(self, signal):
-        """
-        Supprime la composante continue (offset/moyenne) d'un signal discret.
-
-        Paramètres
-        ----------
-        signal : array-like
-            Le signal d'entrée (liste, tuple ou numpy array).
-
-        Retour
-        ------
-        numpy.ndarray
-            Le signal sans sa composante continue (moyenne nulle).
-        """
-        signal = np.asarray(signal, dtype=float)
-        return signal - np.mean(signal)
-
     def convert_to_freq(self, buffer, freq_max_hz=2.5):
         """
         Calcule le spectre fréquentiel (FFT) d'un buffer.
@@ -114,7 +98,6 @@ class HeartRateCalculator:
         masque = (freqs > 0) & (freqs <= freq_max_hz)
 
         return freqs[masque], spectre[masque]
-
 
     def calculate_frequency(self, frequence, spectre, threshold=0.9):
         # Threshold = Seuil au dela duquel les valeurs sont prises en compte dans le calcul de la fréquence
@@ -143,20 +126,3 @@ class HeartRateCalculator:
 
         print(f"Fréquence dominante : {average}, soit {average * 60} bpm (threshold = {threshold})")
         return average
-
-
-    def lowpass_filter(self, data, cutoff_hz=1.0, order=4):
-        """
-        Applique un filtre passe-bas Butterworth (zero-phase) à un signal.
-
-        cutoff_hz : fréquence de coupure du filtre (Hz)
-        order     : ordre du filtre
-
-        La fréquence d'échantillonnage (fs_hz) est dérivée de self.pe
-        pour rester cohérente avec le reste du traitement.
-        """
-        fs_hz = 1.0 / self.pe
-        nyquist = 0.5 * fs_hz
-        normal_cutoff = min(cutoff_hz / nyquist, 0.99)  # évite de dépasser la limite de Nyquist
-        b, a = butter(order, normal_cutoff, btype="low", analog=False)
-        return filtfilt(b, a, data)
