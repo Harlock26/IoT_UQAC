@@ -1,0 +1,24 @@
+IHM
+	Récupérer les données du broker MQTT
+	Afficher les données des capteurs : heartrate & accéléromètre
+	Afficher le rythme cardiaque et nombre de pas
+		Nombre de pas --> s'implémente simplement, se reset au lancement de l'application
+		Rythme cardiaque
+			Enregistre & traite les battements (Filtre passe-bas & - DC)
+			Enregistrer un buffer de 5 secondes
+			Calcul du rythme cardiaque sur 5 secondes
+			Tant que les valeurs ne sont pas abérrantes (appareil enlevé)
+				ajouter les données au buffer toutes les 5 secondes
+				Si le buffer dépasse 60 secondes --> supprimer les 5 premières secondes
+			Les valeurs sont abérrantes : Suppression du buffer
+	Communiquer à l'appareil le rythme cardiaque
+			
+Compter les battements de coeur
+	X Supprimer les valeurs abérrantes --> seuils min & max
+	X Soustraire la moyenne (supprimer la composante continue)
+	X Compter les battements
+		Une alternance valeurs positives - valeurs négatives = 1 battement
+		X Transformée de fourier --> prendre la fréquence avec le plus d'amplitude
+		
+Compteur de pas
+	

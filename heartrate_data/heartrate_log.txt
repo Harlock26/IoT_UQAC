@@ -1,903 +1,452 @@
-heartratePinValue = 22
-rateValue = 0
-heartratePinValue = 22
-rateValue = 0
-heartratePinValue = 22
-rateValue = 0
-heartratePinValue = 23
-rateValue = 0
-heartratePinValue = 26
-rateValue = 0
-heartratePinValue = 24
-rateValue = 0
-heartratePinValue = 24
-rateValue = 0
-heartratePinValue = 23
-rateValue = 0
-heartratePinValue = 15
-rateValue = 0
-heartratePinValue = 23
-rateValue = 0
-heartratePinValue = 17
-rateValue = 0
-heartratePinValue = 39
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 50
-rateValue = 0
-heartratePinValue = 5
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 2
+22
+22
+22
+23
+26
+24
+24
+23
+15
+23
+17
+39
+255
+255
+50
+5
+3
+3
+2
+255
+255
+187
+99
+60
+30
+30
+30
+28
+26
+23
+255
+255
+255
+4
+3
+3
+4
+5
+3
+255
+5
+6
+1
+3
+2
+3
+14
+149
+195
+203
+208
+206
+205
+207
+205
+206
+204
+209
+208
+209
+207
+201
+206
+206
+207
+208
+207
+207
+208
+208
+205
+208
+207
+208
+206
+210
+205
+205
+210
+203
+209
+208
+206
+218
+201
+204
+210
+209
+204
+210
+211
+204
+207
+207
+212
+213
+212
+208
+208
+208
+211
+209
+213
+210
+210
+212
+210
+211
+214
+210
+206
+209
+206
+207
+213
+212
+211
+211
+206
+213
+208
+209
+217
+207
+208
+31
+52
+47
+35
+48
+52
+42
+38
+54
+44
+33
+61
+51
+30
+55
+53
+36
+51
+53
+30
+60
+50
+51
+52
+32
+62
+47
+49
+56
+33
+63
+52
+45
+62
+32
+64
+51
+27
+65
+30
+54
+54
+23
+63
+42
+50
+54
+23
+59
+42
+42
+51
+21
+62
+43
+47
+54
+22
+63
+46
+38
+55
+26
+59
+49
+34
+57
+31
+59
+52
+29
+62
+46
+62
+58
+41
+65
+51
+67
+59
+254
+62
+28
+37
+46
+16
+64
+43
+45
+59
+22
+65
+56
+51
+60
+17
+42
+34
+26
+71
+35
+5
+27
+13
+46
+26
+58
+65
+32
+76
+43
+60
+64
+27
+74
+50
+51
+67
+31
+75
+59
+58
+76
+36
+78
+61
+48
+70
+38
+70
+61
+38
+70
+41
+66
+65
+38
+70
+49
+63
+65
+35
+73
+56
+51
+70
+35
+75
+59
+45
+70
+37
+69
+61
+40
+72
+42
+67
+67
+35
+73
+50
+62
+69
+35
+73
+55
+53
+68
+34
+71
+61
+43
+68
+39
+66
+60
+40
+72
+39
+66
+64
+37
+71
+52
+65
+63
+36
+74
+52
+62
+71
+61
+33
+76
+63
+36
+66
+69
+52
+44
+73
+61
+34
+68
+66
+39
+52
+72
+58
+38
+75
+66
+34
+66
+63
+48
+47
+71
+58
+34
+69
+64
+38
+56
+71
+56
+38
+74
+63
+36
+68
+64
+39
+55
+70
+52
+41
+71
+60
+56
+47
+70
+38
+71
+61
+42
+71
+43
+68
+61
+44
+71
+44
+65
+62
+40
+75
+50
+66
+66
+38
+72
+43
+70
+64
+42
+72
+43
+69
+63
+38
+71
+45
+66
+66
+38
+75
+55
+61
+69
+28
+78
+56
+56
+68
+32
+77
+58
+56
+70
+53
+255
+255
+237
+255
+3
+4
+4
+4
+2
+1
+4
+2
+4
+2
+116
+191
+204
 Wait for valid data !
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 187
-rateValue = 0
-heartratePinValue = 99
-rateValue = 0
-heartratePinValue = 60
-rateValue = 0
-heartratePinValue = 30
-rateValue = 0
-heartratePinValue = 30
-rateValue = 0
-heartratePinValue = 30
-rateValue = 0
-heartratePinValue = 28
-rateValue = 0
-heartratePinValue = 26
-rateValue = 0
-heartratePinValue = 23
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 5
-rateValue = 0
-heartratePinValue = 3
-Wait for valid data !
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 5
-rateValue = 0
-heartratePinValue = 6
-rateValue = 0
-heartratePinValue = 1
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 2
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 14
-rateValue = 0
-heartratePinValue = 149
-rateValue = 0
-heartratePinValue = 195
-rateValue = 0
-heartratePinValue = 203
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 205
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 205
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 204
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 201
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 205
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 205
-rateValue = 0
-heartratePinValue = 205
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 203
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 218
-rateValue = 0
-heartratePinValue = 201
-rateValue = 0
-heartratePinValue = 204
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 204
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 211
-rateValue = 0
-heartratePinValue = 204
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 212
-rateValue = 0
-heartratePinValue = 213
-rateValue = 0
-heartratePinValue = 212
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 211
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 213
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 212
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 211
-rateValue = 0
-heartratePinValue = 214
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 213
-rateValue = 0
-heartratePinValue = 212
-rateValue = 0
-heartratePinValue = 211
-rateValue = 0
-heartratePinValue = 211
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
-heartratePinValue = 213
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 217
-rateValue = 0
-heartratePinValue = 207
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 31
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 47
-rateValue = 0
-heartratePinValue = 35
-rateValue = 0
-heartratePinValue = 48
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 54
-rateValue = 0
-heartratePinValue = 44
-rateValue = 0
-heartratePinValue = 33
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 30
-rateValue = 0
-heartratePinValue = 55
-rateValue = 0
-heartratePinValue = 53
-rateValue = 0
-heartratePinValue = 36
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 53
-rateValue = 0
-heartratePinValue = 30
-rateValue = 0
-heartratePinValue = 60
-rateValue = 0
-heartratePinValue = 50
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 32
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 47
-rateValue = 0
-heartratePinValue = 49
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 33
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 45
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 32
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 27
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 30
-rateValue = 0
-heartratePinValue = 54
-rateValue = 0
-heartratePinValue = 54
-rateValue = 0
-heartratePinValue = 23
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 50
-rateValue = 0
-heartratePinValue = 54
-rateValue = 0
-heartratePinValue = 23
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 21
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 47
-rateValue = 0
-heartratePinValue = 54
-rateValue = 0
-heartratePinValue = 22
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 46
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 55
-rateValue = 0
-heartratePinValue = 26
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 49
-rateValue = 0
-heartratePinValue = 34
-rateValue = 0
-heartratePinValue = 57
-rateValue = 0
-heartratePinValue = 31
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 29
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 46
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 58
-rateValue = 0
-heartratePinValue = 41
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 67
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 254
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 28
-rateValue = 0
-heartratePinValue = 37
-rateValue = 0
-heartratePinValue = 46
-rateValue = 0
-heartratePinValue = 16
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 45
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 22
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 60
-rateValue = 0
-heartratePinValue = 17
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 34
-rateValue = 0
-heartratePinValue = 26
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 35
-rateValue = 0
-heartratePinValue = 5
-rateValue = 0
-heartratePinValue = 27
-rateValue = 0
-heartratePinValue = 13
-rateValue = 0
-heartratePinValue = 46
-rateValue = 0
-heartratePinValue = 26
-rateValue = 0
-heartratePinValue = 58
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 32
-rateValue = 0
-heartratePinValue = 76
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 60
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 27
-rateValue = 0
-heartratePinValue = 74
-rateValue = 0
-heartratePinValue = 50
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 67
-rateValue = 0
-heartratePinValue = 31
-rateValue = 0
-heartratePinValue = 75
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 58
-rateValue = 0
-heartratePinValue = 76
-rateValue = 0
-heartratePinValue = 36
-rateValue = 0
-heartratePinValue = 78
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 48
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 41
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 49
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 35
-rateValue = 0
-heartratePinValue = 73
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 51
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 35
-rateValue = 0
-heartratePinValue = 75
-rateValue = 0
-heartratePinValue = 59
-rateValue = 0
-heartratePinValue = 45
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 37
-rateValue = 0
-heartratePinValue = 69
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 40
-rateValue = 0
-heartratePinValue = 72
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 67
-rateValue = 0
-heartratePinValue = 67
-rateValue = 0
-heartratePinValue = 35
-rateValue = 0
-heartratePinValue = 73
-rateValue = 0
-heartratePinValue = 50
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 69
-rateValue = 0
-heartratePinValue = 35
-rateValue = 0
-heartratePinValue = 73
-rateValue = 0
-heartratePinValue = 55
-rateValue = 0
-heartratePinValue = 53
-rateValue = 0
-heartratePinValue = 68
-rateValue = 0
-heartratePinValue = 34
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 68
-rateValue = 0
-heartratePinValue = 39
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 60
-rateValue = 0
-heartratePinValue = 40
-rateValue = 0
-heartratePinValue = 72
-rateValue = 0
-heartratePinValue = 39
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 37
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 36
-rateValue = 0
-heartratePinValue = 74
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 33
-rateValue = 0
-heartratePinValue = 76
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 36
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 69
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 44
-rateValue = 0
-heartratePinValue = 73
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 34
-rateValue = 0
-heartratePinValue = 68
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 39
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 72
-rateValue = 0
-heartratePinValue = 58
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 75
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 34
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 48
-rateValue = 0
-heartratePinValue = 47
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 58
-rateValue = 0
-heartratePinValue = 34
-rateValue = 0
-heartratePinValue = 69
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 74
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 36
-rateValue = 0
-heartratePinValue = 68
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 39
-rateValue = 0
-heartratePinValue = 55
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 52
-rateValue = 0
-heartratePinValue = 41
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 60
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 47
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 68
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 44
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 44
-rateValue = 0
-heartratePinValue = 65
-rateValue = 0
-heartratePinValue = 62
-rateValue = 0
-heartratePinValue = 40
-rateValue = 0
-heartratePinValue = 75
-rateValue = 0
-heartratePinValue = 50
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 72
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 64
-rateValue = 0
-heartratePinValue = 42
-rateValue = 0
-heartratePinValue = 72
-rateValue = 0
-heartratePinValue = 43
-rateValue = 0
-heartratePinValue = 69
-rateValue = 0
-heartratePinValue = 63
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 71
-rateValue = 0
-heartratePinValue = 45
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 66
-rateValue = 0
-heartratePinValue = 38
-rateValue = 0
-heartratePinValue = 75
-rateValue = 0
-heartratePinValue = 55
-rateValue = 0
-heartratePinValue = 61
-rateValue = 0
-heartratePinValue = 69
-rateValue = 0
-heartratePinValue = 28
-rateValue = 0
-heartratePinValue = 78
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 68
-rateValue = 0
-heartratePinValue = 32
-rateValue = 0
-heartratePinValue = 77
-rateValue = 0
-heartratePinValue = 58
-rateValue = 0
-heartratePinValue = 56
-rateValue = 0
-heartratePinValue = 70
-rateValue = 0
-heartratePinValue = 53
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 237
-rateValue = 0
-heartratePinValue = 255
-rateValue = 0
-heartratePinValue = 3
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 2
-rateValue = 0
-heartratePinValue = 1
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 2
-rateValue = 0
-heartratePinValue = 4
-rateValue = 0
-heartratePinValue = 2
-rateValue = 0
-heartratePinValue = 116
-rateValue = 0
-heartratePinValue = 191
-rateValue = 0
-heartratePinValue = 204
-Wait for valid data !
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 209
-rateValue = 0
-heartratePinValue = 204
-rateValue = 0
-heartratePinValue = 202
-rateValue = 0
-heartratePinValue = 212
-rateValue = 0
-heartratePinValue = 208
-rateValue = 0
-heartratePinValue = 204
-rateValue = 0
-heartratePinValue = 205
-rateValue = 0
-heartratePinValue = 211
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 210
-rateValue = 0
-heartratePinValue = 206
-rateValue = 0
+209
+208
+208
+208
+208
+209
+204
+202
+212
+208
+204
+205
+211
+210
+210
+206
+
