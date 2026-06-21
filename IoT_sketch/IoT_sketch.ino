@@ -29,6 +29,7 @@ const char topic3[] = "heartrate/bpm";
 //set interval for sending messages (milliseconds)
 const long interval = 200;
 unsigned long previousMillis = 0;
+unsigned long previousMillisBpm = 0;
 bool lastButtonState = HIGH;
 
 int count = 0;
@@ -108,6 +109,8 @@ void setup() {
   Serial.println();
   
   mqttClient.subscribe(topic3);
+  lcd.setCursor(0,5);
+  lcd.print("bpm");
 }
 
 void loop() {
@@ -243,9 +246,12 @@ void onMqttMessage(int messageSize){
   int result = incoming.toInt();
   // print the result:
   Serial.println(result);
-  String bpm;
-  bpm = formatBpm(String(result));
-  lcd.setCursor(0, 0);
-  lcd.print(bpm);
-  //delay(100);
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillisBpm >= 1000){ //update display only every second
+    String bpm;
+    bpm = formatBpm(String(result));
+    lcd.setCursor(0, 0);
+    lcd.print(bpm);
+  }
+  //delay(50);
 }
