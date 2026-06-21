@@ -37,23 +37,19 @@ int count = 0;
 void setup() {
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
-  /*
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }*/
+
   pinMode(btnPin,INPUT_PULLUP); //pinMode(btnPin,INPUT);
   pinMode(Vibration,OUTPUT);
   pinMode(heartratePin,INPUT);
   lcd.init();
   lcd.setBacklight(false);
-  //lcd.setRGB(255, 255, 255);
   while(!acce.begin()){
-     //Serial.println("Initialization failed, please check the connection and I2C address settings");
+     Serial.println("Initialization failed, please check the connection and I2C address settings");
      delay(1000);
   }
   //Get chip id
-  //Serial.print("chip id : ");
-  //Serial.println(acce.getID(),HEX);
+  Serial.print("chip id : ");
+  Serial.println(acce.getID(),HEX);
   
   /**
     set range:Range(g)
@@ -76,22 +72,21 @@ void setup() {
       eLowPower_400Hz
   */
   acce.setAcquireRate(/*Rate = */DFRobot_LIS2DH12::eLowPower_10Hz);
-  //Serial.print("Acceleration:\n");
   delay(1000);
   // attempt to connect to Wifi network:
-  //Serial.print("Attempting to connect to WPA SSID: ");
-  //Serial.println(ssid);
+  Serial.print("Attempting to connect to WPA SSID: ");
+  Serial.println(ssid);
   while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
     // failed, retry
-    //Serial.print(".");
+    Serial.print(".");
     delay(5000);
   }
 
-  //Serial.println("You're connected to the network");
-  //Serial.println();
+  Serial.println("You're connected to the network");
+  Serial.println();
 
-  //Serial.print("Attempting to connect to the MQTT broker: ");
-  //Serial.println(broker);
+  Serial.print("Attempting to connect to the MQTT broker: ");
+  Serial.println(broker);
 
   if (!mqttClient.connect(broker, port)) {
     Serial.print("MQTT connection failed! Error code = ");
@@ -153,31 +148,8 @@ void loop() {
 
     uint8_t rateValue;
     uint8_t heartratePinValue;
-    heartratePinValue = heartrate.getValue(heartratePin); ///< A1 foot sampled values
-    rateValue = heartrate.getRate(); ///< Get heart rate value
-    if(rateValue)  {
-      Serial.println(rateValue);
-    }
-    //lcd.setCursor(0,0);
-    //String bpmDisplay;
-    //bpmDisplay = formatBpm(String(mqttClient.read()));
-    //formatBpm(String(heartratePinValue));
-    //lcd.print(bpmDisplay);
-    /*
-    Serial.print("Sending message to topic: ");
-    Serial.println(topic);
-    Serial.println(json);
+    heartratePinValue = heartrate.getValue(heartratePin);
 
-    Serial.print("Sending message to topic: ");
-    Serial.println(topic2);
-    Serial.println(rateValue);
-    */
-    /*
-    Serial.print("rateValue = ");
-    Serial.println(rateValue);
-    Serial.print("heartratePinValue = ");
-    Serial.println(heartratePinValue);
-    */
     // send message, the Print interface can be used to set the message contents
     mqttClient.beginMessage(topic);
     mqttClient.print(json);
@@ -186,11 +158,7 @@ void loop() {
     mqttClient.beginMessage(topic2);
     mqttClient.print(String(heartratePinValue));
     mqttClient.endMessage();
-  
-    //Serial.println();
   }
-  //lcd.setCursor(0,1);
-  //lcd.print("        ");
 }
 
 void digitalClockDisplay(int timeZone){
@@ -253,5 +221,4 @@ void onMqttMessage(int messageSize){
     lcd.setCursor(0, 0);
     lcd.print(bpm);
   }
-  //delay(50);
 }
