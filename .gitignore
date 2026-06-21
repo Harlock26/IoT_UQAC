@@ -2,3 +2,4 @@
 venv
 .vscode
 qt
+arduino_secrets.h
