@@ -1,3 +1,6 @@
 [submodule "chemin/vers/tiny-ECDH-c"]
 	path = chemin/vers/tiny-ECDH-c
 	url = https://github.com/kokke/tiny-ECDH-c.git
+[submodule "dh_lib"]
+	path = dh_lib
+	url = https://github.com/kokke/tiny-ECDH-c.git
