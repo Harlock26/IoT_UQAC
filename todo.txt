@@ -1,17 +1,24 @@
+X Sauvegarder les données dans un BDD
+X Fixer l'affichage LCD du bpm
+Compter les pas approximativement avec la variation de l'accélération
+diffie hellman
+maj diapo
+vidéos de démo
+
 IHM
-	Récupérer les données du broker MQTT
-	Afficher les données des capteurs : heartrate & accéléromètre
+	X Récupérer les données du broker MQTT
+	X Afficher les données des capteurs : heartrate & accéléromètre
 	Afficher le rythme cardiaque et nombre de pas
 		Nombre de pas --> s'implémente simplement, se reset au lancement de l'application
 		Rythme cardiaque
-			Enregistre & traite les battements (Filtre passe-bas & - DC)
-			Enregistrer un buffer de 5 secondes
-			Calcul du rythme cardiaque sur 5 secondes
-			Tant que les valeurs ne sont pas abérrantes (appareil enlevé)
-				ajouter les données au buffer toutes les 5 secondes
-				Si le buffer dépasse 60 secondes --> supprimer les 5 premières secondes
-			Les valeurs sont abérrantes : Suppression du buffer
-	Communiquer à l'appareil le rythme cardiaque
+			X Enregistre & traite les battements (Filtre passe-bas & - DC)
+			X Enregistrer un buffer de 5 secondes
+			X Calcul du rythme cardiaque sur 5 secondes
+			X Tant que les valeurs ne sont pas abérrantes (appareil enlevé)
+				X ajouter les données au buffer toutes les 5 secondes
+				X Si le buffer dépasse 60 secondes --> supprimer les 5 premières secondes
+			X Les valeurs sont abérrantes : Suppression du buffer
+	X Communiquer à l'appareil le rythme cardiaque
 			
 Compter les battements de coeur
 	X Supprimer les valeurs abérrantes --> seuils min & max

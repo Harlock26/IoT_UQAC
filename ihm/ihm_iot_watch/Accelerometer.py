@@ -19,6 +19,10 @@ class Accelerometer:
         self.buffer_y = []
         self.buffer_z = []
 
+        self.ac_buffer_x = []
+        self.ac_buffer_y = []
+        self.ac_buffer_z = []
+
         self.speed_buffer_y = []
         self.speed_buffer_x = []
         self.speed_buffer_z = []
@@ -45,18 +49,22 @@ class Accelerometer:
         self.buffer_y.append(y)
         self.buffer_z.append(z)
 
-        ac_buffer_x = Utils.remove_dc(self.buffer_x)
-        ac_buffer_y = Utils.remove_dc(self.buffer_y)
-        ac_buffer_z = Utils.remove_dc(self.buffer_z)
+        # self.ac_buffer_y = Utils.lowpass_filter(Utils.remove_dc(self.buffer_y), self.pe)
+        # self.ac_buffer_x = Utils.lowpass_filter(Utils.remove_dc(self.buffer_x), self.pe)
+        # self.ac_buffer_z = Utils.lowpass_filter(Utils.remove_dc(self.buffer_z), self.pe)
+
+        self.ac_buffer_y = Utils.remove_dc(self.buffer_y)
+        self.ac_buffer_x = Utils.remove_dc(self.buffer_x)
+        self.ac_buffer_z = Utils.remove_dc(self.buffer_z)
 
         # On garde seulement les max_buffer_size derniers échantillons (fenêtre glissante)
         for buf in (self.buffer_x, self.buffer_y, self.buffer_z):
             if len(buf) > self.max_buffer_size:
                 del buf[0:len(buf) - self.max_buffer_size]
 
-        self.integrate(ac_buffer_x, self.speed_buffer_x, self.position_buffer_x)
-        self.integrate(ac_buffer_y, self.speed_buffer_y, self.position_buffer_y)
-        self.integrate(ac_buffer_z, self.speed_buffer_z, self.position_buffer_z)
+        self.integrate(self.ac_buffer_x, self.speed_buffer_x, self.position_buffer_x)
+        self.integrate(self.ac_buffer_y, self.speed_buffer_y, self.position_buffer_y)
+        self.integrate(self.ac_buffer_z, self.speed_buffer_z, self.position_buffer_z)
 
         return True
 

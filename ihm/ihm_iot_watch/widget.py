@@ -1,9 +1,11 @@
 # This Python file uses the following encoding: utf-8
 import sys
 import json
+from datetime import datetime
 
 from PySide6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTabWidget,
+    QPushButton, QMessageBox,
 )
 import pyqtgraph as pg
 import pyqtgraph.opengl as gl
@@ -13,6 +15,19 @@ from MqttWorker import MqttWorker
 from HeartRateCalculator import HeartRateCalculator
 from Accelerometer import Accelerometer
 from Utils import Utils
+from Database import Database
+
+
+class DateTimeAxisItem(pg.AxisItem):
+    """Axe pyqtgraph affichant des timestamps epoch (secondes) au format
+    fixe 'hh:mm jj/mm/yy', quel que soit le niveau de zoom."""
+
+    def tickStrings(self, values, scale, spacing):
+        return [
+            datetime.fromtimestamp(value).strftime("%H:%M %d/%m/%y")
+            if value > 0 else ""
+            for value in values
+        ]
 
 
 class Widget(QWidget):
@@ -23,10 +38,16 @@ class Widget(QWidget):
         self.status_label = QLabel("MQTT : déconnecté")
         self.data_label = QLabel("En attente de données...")
 
+        # La base de données doit exister avant la construction des onglets,
+        # car l'onglet "Historique du rythme cardiaque" lit son contenu
+        # dès sa construction pour afficher les données déjà enregistrées.
+        self.db = Database("mesures.db")
+
         self.tabs = QTabWidget()
         self.tabs.addTab(self._build_heartrate_tab(), "Rythme cardiaque")
         self.tabs.addTab(self._build_accelerometer_tab(), "Accéléromètre")
         self.tabs.addTab(self._build_accelerometer_3d_tab(), "Accéléromètre 3D")
+        self.tabs.addTab(self._build_heartrate_history_tab(), "Historique du rythme cardiaque")
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.status_label)
@@ -83,6 +104,41 @@ class Widget(QWidget):
         tab_layout = QVBoxLayout(tab)
         tab_layout.addLayout(plots_layout)
         tab_layout.addWidget(self.bpm_label)
+
+        return tab
+
+    def _build_heartrate_history_tab(self):
+        """Construit l'onglet 'Historique du rythme cardiaque' : un graphe
+        affichant toutes les valeurs de BPM enregistrées dans la base de
+        données, ainsi qu'un bouton pour vider entièrement l'historique."""
+        tab = QWidget()
+
+        self.history_plot_widget = pg.PlotWidget(
+            axisItems={"bottom": DateTimeAxisItem(orientation="bottom")}
+        )
+        self.history_plot_widget.setTitle("Historique du BPM")
+        self.history_plot_widget.setLabel("left", "BPM")
+        self.history_plot_widget.setLabel("bottom", "Date / Heure")
+        self.history_curve = self.history_plot_widget.plot(
+            pen=pg.mkPen(color="c", width=2),
+            symbol="o",
+            symbolSize=5,
+            symbolBrush="c",
+        )
+
+        self.clear_history_button = QPushButton("Supprimer l'historique")
+        self.clear_history_button.clicked.connect(self._on_clear_history_clicked)
+
+        buttons_layout = QHBoxLayout()
+        buttons_layout.addStretch()
+        buttons_layout.addWidget(self.clear_history_button)
+
+        tab_layout = QVBoxLayout(tab)
+        tab_layout.addWidget(self.history_plot_widget)
+        tab_layout.addLayout(buttons_layout)
+
+        # Affiche immédiatement les données déjà présentes en base
+        self._update_history_plot()
 
         return tab
 
@@ -178,7 +234,6 @@ class Widget(QWidget):
         tab_layout.addLayout(plots_layout)
 
         return tab
-        self.status_label.setText("MQTT : connecté")
 
     def _on_mqtt_connected(self):
         self.status_label.setText("MQTT : connecté")
@@ -207,6 +262,9 @@ class Widget(QWidget):
         if not isinstance(data, (list, tuple)):
             data = [data]
 
+        # Enregistrement des échantillons bruts reçus
+        self.db.save_many("heartrate", data)
+
         resultat = self.heartrate.on_new_data(data)
 
         if resultat is False:
@@ -217,8 +275,15 @@ class Widget(QWidget):
             self.last_bpm = resultat
             self._set_bpm_display(self.last_bpm, valid=True)
 
+            # Enregistrement du BPM calculé
+            self.db.save("bpm", resultat)
+
             # Publication du résultat sur le broker MQTT
+            # self.mqtt_worker.publish("heartrate/bpm", f"{resultat:.1f}")
             self.mqtt_worker.publish("heartrate/bpm", f"{resultat:.1f}")
+
+            # Mise à jour du graphe d'historique avec la nouvelle valeur
+            self._update_history_plot()
 
         # Le graphe affiche toujours la fenêtre glissante courante,
         # qu'elle ait été jugée valide ou non (utile pour voir le signal brut)
@@ -229,20 +294,29 @@ class Widget(QWidget):
         et met à jour le graphe correspondant."""
         ok = self.accelerometer.on_new_data(data)
         if ok:
+            x, y, z = data
+            self.db.save("acceleration_x", x)
+            self.db.save("acceleration_y", y)
+            self.db.save("acceleration_z", z)
+
             self._update_accel_plot()
 
     def _update_accel_plot(self):
-        x = self.accelerometer.buffer_x
-        y = self.accelerometer.buffer_y
-        z = self.accelerometer.buffer_z
+        x = self.accelerometer.ac_buffer_x
+        y = self.accelerometer.ac_buffer_y
+        z = self.accelerometer.ac_buffer_z
 
         x_speed = self.accelerometer.speed_buffer_x
         y_speed = self.accelerometer.speed_buffer_y
         z_speed = self.accelerometer.speed_buffer_z
 
-        x_position = self.accelerometer.position_buffer_x
-        y_position = self.accelerometer.position_buffer_y
-        z_position = self.accelerometer.position_buffer_z
+        # x_position = Utils.lowpass_filter(Utils.remove_dc(self.accelerometer.position_buffer_x), pe = self.accelerometer.pe)
+        # y_position = Utils.lowpass_filter(Utils.remove_dc(self.accelerometer.position_buffer_y), pe = self.accelerometer.pe)
+        # z_position = Utils.lowpass_filter(Utils.remove_dc(self.accelerometer.position_buffer_z), pe = self.accelerometer.pe)
+
+        x_position = Utils.remove_dc(self.accelerometer.position_buffer_x)
+        y_position = Utils.remove_dc(self.accelerometer.position_buffer_y)
+        z_position = Utils.remove_dc(self.accelerometer.position_buffer_z)
 
         self.curve_x.setData(list(range(len(x))), x)
         self.curve_y.setData(list(range(len(y))), y)
@@ -283,6 +357,42 @@ class Widget(QWidget):
         if len(self.heartrate.last_freqs) > 0:
             self.spectrum_curve.setData(self.heartrate.last_freqs, self.heartrate.last_spectre)
 
+    def _update_history_plot(self):
+        """Relit toutes les valeurs de BPM enregistrées en base et met à
+        jour le graphe d'historique. L'axe des abscisses est un DateAxisItem
+        qui affiche directement les timestamps epoch sous forme de date/heure
+        lisible (pas besoin de conversion manuelle)."""
+        rows = self.db.fetch(type_mesure="bpm")
+
+        if not rows:
+            self.history_curve.setData([], [])
+            return
+
+        timestamps = [row[0] for row in rows]
+        valeurs = [row[2] for row in rows]
+
+        self.history_curve.setData(timestamps, valeurs)
+
+    def _on_clear_history_clicked(self):
+        """Demande confirmation puis vide entièrement la base de données
+        (toutes les mesures, pas seulement le BPM), et rafraîchit l'affichage."""
+        reponse = QMessageBox.question(
+            self,
+            "Supprimer l'historique",
+            "Voulez-vous vraiment supprimer tout l'historique enregistré "
+            "(BPM, accéléromètre, etc.) ? Cette action est irréversible.",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+
+        if reponse != QMessageBox.Yes:
+            return
+
+        self.db.clear()
+        self.last_bpm = None
+        self._set_bpm_display(None, valid=True)
+        self._update_history_plot()
+
     def _set_bpm_display(self, bpm, valid: bool):
         if bpm is None:
             self.bpm_label.setText("BPM : --")
@@ -296,8 +406,9 @@ class Widget(QWidget):
             self.bpm_label.setStyleSheet("font-size: 24px; font-weight: bold; color: red;")
 
     def closeEvent(self, event):
-        """Arrête proprement le thread MQTT à la fermeture de la fenêtre."""
+        """Arrête proprement le thread MQTT et la base de données à la fermeture de la fenêtre."""
         self.mqtt_worker.stop()
+        self.db.close()
         super().closeEvent(event)
 
 

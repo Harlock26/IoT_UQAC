@@ -33,6 +33,7 @@ unsigned long previousMillisBpm = 0;
 bool lastButtonState = HIGH;
 
 int count = 0;
+String bpm;
 
 void setup() {
   //Initialize serial and wait for port to open:
@@ -105,11 +106,10 @@ void setup() {
   
   mqttClient.subscribe(topic3);
   lcd.setCursor(0,5);
-  lcd.print("bpm");
+  // lcd.print("bpm");
 }
 
 void loop() {
-  digitalClockDisplay(-4);
   bool buttonState = digitalRead(btnPin);
 
   if (buttonState != lastButtonState) {
@@ -125,10 +125,18 @@ void loop() {
   mqttClient.poll();
 
   unsigned long currentMillis = millis();
+
   
+
+  // Things done only every interval (0.2) seconds
   if (currentMillis - previousMillis >= interval) {
-    // save the last time a message was sent
-    previousMillis = currentMillis;
+    previousMillis = currentMillis; // save the last time a message was sent
+
+    // Refresh the display
+    digitalClockDisplay(-4);
+    bpmDisplay();
+
+    // Sends heart sensor & acceleromter data to mqtt broker every interval time
     lcd.setCursor(1, 0);
     lcd.print(" ");
     lcd.setCursor(2, 0);
@@ -181,6 +189,12 @@ void digitalClockDisplay(int timeZone){
   lcd.print(s);
 }
 
+void bpmDisplay(){
+  lcd.setCursor(6, 0); // pixels (2,0) and (3,0) don't work anymore, I shifted the display
+  lcd.print(formatBpm(bpm));
+  Serial.println(formatBpm(bpm));
+}
+
 String formatDigits(String input){
   if (input.length()==1){
     input = "0"+input;
@@ -189,14 +203,23 @@ String formatDigits(String input){
 }
 
 String formatBpm(String input){
-  if (input.length()<1 or input.length()>3){
+  if (input.length()<1 or input.length()>4){
     input = "err";
   }
-  for (int i=0;i<(3-input.length());i++){
+  for (int i=0;i<(4-input.length());i++){
     input = " " + input;
   }
   return (input + " bpm");
 }
+
+/*
+String replace_dots(String str) {
+    for (int i = 0; i < str.length(); i++) {
+        if (str[i] == '.')
+            str[i] = ',';
+    }
+    return str;
+} */
 
 void onMqttMessage(int messageSize){
   // we received a message, print out the topic and contents
@@ -211,14 +234,13 @@ void onMqttMessage(int messageSize){
     incoming += (char)mqttClient.read();
   }
   // convert the incoming string to an int so you can use it:
-  int result = incoming.toInt();
+  bpm = incoming;
   // print the result:
-  Serial.println(result);
-  unsigned long currentMillis = millis();
-  if (currentMillis - previousMillisBpm >= 1000){ //update display only every second
-    String bpm;
-    bpm = formatBpm(String(result));
-    lcd.setCursor(0, 0);
-    lcd.print(bpm);
-  }
+  Serial.println(bpm);
+  // unsigned long currentMillis = millis();
+  // if (currentMillis - previousMillisBpm >= 1000){ //update display only every second
+  //   bpm = formatBpm(String(result));
+  //   lcd.setCursor(0, 0);
+  //   lcd.print(bpm);
+  // }
 }
