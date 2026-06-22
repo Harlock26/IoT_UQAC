@@ -74,6 +74,9 @@ void setup() {
   */
   acce.setAcquireRate(/*Rate = */DFRobot_LIS2DH12::eLowPower_10Hz);
   delay(1000);
+
+  lcd.setCursor(0,0);
+  lcd.print("Connect to WiFi");
   // attempt to connect to Wifi network:
   Serial.print("Attempting to connect to WPA SSID: ");
   Serial.println(ssid);
@@ -102,11 +105,16 @@ void setup() {
 
   Serial.print("Subscribing to topic: ");
   Serial.println(topic3);
-  Serial.println();
   
   mqttClient.subscribe(topic3);
-  lcd.setCursor(0,5);
-  // lcd.print("bpm");
+
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("WiFi OK");
+  lcd.setCursor(0,1);
+  lcd.print("MQTT broker OK");
+  delay(1000);
+  lcd.clear();
 }
 
 void loop() {
