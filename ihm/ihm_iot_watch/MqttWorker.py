@@ -11,9 +11,9 @@ class MqttWorker(QThread):
 
     def __init__(self, broker_host, port=1883, topics=None, parent=None):
         super().__init__(parent)
-        self.broker_host = "test.mosquitto.org"
-        self.port = 1883
-        self.topics = ["acceleration","heartrate"]
+        self.broker_host = broker_host
+        self.port = port
+        self.topics = topics if topics is not None else []
 
         self.client = mqtt.Client()
         self.client.on_connect = self._on_connect

@@ -28,4 +28,12 @@ Compter les battements de coeur
 		X Transformée de fourier --> prendre la fréquence avec le plus d'amplitude
 		
 Compteur de pas
+
+Cryptographie
+	DH coté arduino
+	DH coté IHM
+	chacha20-poly1305 coté arduino
+	chacha20-poly1305 coté IHM
+	Broker auto-hébergé --> Affiche les messages chiffrés en transit
+
 	

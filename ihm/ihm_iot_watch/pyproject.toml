@@ -2,4 +2,4 @@
 name = "PySide Project"
 
 [tool.pyside6-project]
-files = ["Accelerometer.py", "Database.py", "HeartRateCalculator.py", "MqttWorker.py", "Utils.py", "widget.py"]
+files = ["Accelerometer.py", "Database.py", "Dh.py", "HeartRateCalculator.py", "MqttWorker.py", "Utils.py", "widget.py"]

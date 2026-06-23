@@ -12,6 +12,7 @@ import pyqtgraph.opengl as gl
 import numpy as np
 
 from MqttWorker import MqttWorker
+from Dh import Dh
 from HeartRateCalculator import HeartRateCalculator
 from Accelerometer import Accelerometer
 from Utils import Utils
@@ -58,8 +59,13 @@ class Widget(QWidget):
         self.mqtt_worker = MqttWorker(
             broker_host="test.mosquitto.org",
             port=1883,
-            topics=["acceleration", "heartrate"],
+            topics=["acceleration", "heartrate", "dh/arduino"],
         )
+
+        # --- Initialisation de l'échange Diffie-Hellman (ECDH) avec l'Arduino ---
+        self.dh = Dh(self.mqtt_worker, lib_path="./libecdh.so")
+        self.dh.secret_established.connect(self._on_dh_secret_established)
+        self.dh.error.connect(self._on_dh_error)
 
         # --- Initialisation des classes de traitement ---
         self.heartrate = HeartRateCalculator()
@@ -241,6 +247,16 @@ class Widget(QWidget):
     def _on_mqtt_disconnected(self):
         self.status_label.setText("MQTT : déconnecté")
 
+    def _on_dh_secret_established(self, shared_secret: bytes):
+        """Réagit à l'établissement du secret partagé ECDH avec l'Arduino."""
+        print(f"Secret partagé établi avec l'Arduino : {shared_secret.hex()}")
+        self.status_label.setText("MQTT : connecté — secret DH établi")
+
+    def _on_dh_error(self, message: str):
+        """Réagit à une erreur survenue pendant l'échange ECDH."""
+        print(f"Erreur DH : {message}")
+        self.status_label.setText(f"MQTT : connecté — erreur DH ({message})")
+
     def _on_mqtt_message(self, topic: str, payload: bytes):
         """Reçu dans le thread UI grâce au signal Qt — sûr de modifier les widgets ici."""
         try:
@@ -254,6 +270,10 @@ class Widget(QWidget):
             self._handle_heartrate(data)
         elif topic == "acceleration":
             self._handle_acceleration(data)
+        elif topic == "dh/arduino":
+            # payload brut (clé publique Arduino en hexa), pas "data" qui a
+            # déjà tenté un json.loads() au-dessus et ne nous est pas utile ici
+            self.dh.handle_arduino_message(payload)
 
     def _handle_heartrate(self, data):
         """Traite les nouvelles données heartrate, met à jour le graphe
