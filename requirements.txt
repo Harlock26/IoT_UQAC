@@ -1,0 +1,4 @@
+pyside6
+paho-mqtt
+numpy
+scipy
